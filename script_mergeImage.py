@@ -14,7 +14,8 @@ def func_join_images(img_fundo, input_dir, output_dir):
 
     # Definição das medidas das imagens
     size_moldura = (1400, 1400) # Tamanho de uma post do Instagram
-    size_img = (1353, 1015)
+    size_img = (878, 1168)
+    # size_img = (1126, 844)
 
     lista_arquivos = [nome for nome in os.listdir(input_dir) if func_eh_imagem(nome)]
     for nomeArq in lista_arquivos:
@@ -23,7 +24,12 @@ def func_join_images(img_fundo, input_dir, output_dir):
         
         # Get Itens recebidos por parametros
         fundo = Image.open(img_fundo)
-        img = Image.open(os.path.join(input_dir, nomeArq)).convert("RGBA") # img/frase.png
+        img = Image.open(os.path.join(input_dir, nomeArq)).convert("RGBA")
+
+        # # Para ajustes de fotos verticais
+        # angle = 270
+        # Image.rotate(angle, resample=0, expand=0, center=None, translate=None, fillcolor=None)[source]
+        # img = img.rotate(angle, 1, 1)
 
         # Redimensionamento das imagens
         editFundo = fundo.resize(size_moldura)
@@ -32,6 +38,7 @@ def func_join_images(img_fundo, input_dir, output_dir):
         # Calculo para centralização da imagem principal com 
         w1, h1 = editFundo.size
         w2, h2 = editImg.size
+
         if w1 > w2:
             x = int((w1 - w2) / 2)
             y = int((h1 - h2) / 2)

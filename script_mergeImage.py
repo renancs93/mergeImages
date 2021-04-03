@@ -12,15 +12,15 @@ def func_join_images(img_fundo, input_dir, output_dir):
 
     sucesso = 0
 
-    # Definição das medidas das imagens
+    # Definição medida da moldura
     size_moldura = (1400, 1400) # Tamanho de uma post do Instagram
-    size_img = (878, 1168)
-    # size_img = (1126, 844)
+
+    # Definição das medidas da imagem
+    # size_img = (878, 1168) # Imagem Vertical
+    size_img = (1126, 844) # Imagem Horizontal
 
     lista_arquivos = [nome for nome in os.listdir(input_dir) if func_eh_imagem(nome)]
     for nomeArq in lista_arquivos:
-
-        print(f'Editando imagem >> {nomeArq}')
         
         # Get Itens recebidos por parametros
         fundo = Image.open(img_fundo)
@@ -53,6 +53,7 @@ def func_join_images(img_fundo, input_dir, output_dir):
         nome_sem_ext = os.path.splitext(nomeArq)[0]
 
         editFundo.save(os.path.join(output_dir, nome_sem_ext + '.png'))
+        print(f'Editado Imagem >> {nomeArq}')
         sucesso += 1
 
     print(f'--- FINALIZADO ---')

@@ -17,7 +17,8 @@ def func_join_images(img_fundo, input_dir, output_dir):
 
     # Definição das medidas da imagem
     # size_img = (878, 1168) # Imagem Vertical
-    size_img = (1126, 844) # Imagem Horizontal
+    # size_img = (1126, 844) # Imagem Horizontal
+    size_img = (1365, 1022) # Imagem Horizontal 2
 
     lista_arquivos = [nome for nome in os.listdir(input_dir) if func_eh_imagem(nome)]
     for nomeArq in lista_arquivos:

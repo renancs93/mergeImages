@@ -7,6 +7,12 @@ def func_eh_imagem(nome_arquivo):
         return True
     return False    
 
+def isImageVertical(foto):
+    largura, altura = foto.size
+    if altura > largura:
+        return True
+    return False
+
 def func_join_images(img_fundo, input_dir, output_dir):
     print('--- EXECUTANDO ---')
 
@@ -15,28 +21,30 @@ def func_join_images(img_fundo, input_dir, output_dir):
     # Definição medida da moldura
     size_moldura = (1400, 1400) # Tamanho de uma post do Instagram
 
-    # Definição das medidas da imagem
-    # size_img = (878, 1168) # Imagem Vertical
-    # size_img = (1126, 844) # Imagem Horizontal
-    size_img = (1365, 1022) # Imagem Horizontal 2
-
     lista_arquivos = [nome for nome in os.listdir(input_dir) if func_eh_imagem(nome)]
     for nomeArq in lista_arquivos:
         
         # Get Itens recebidos por parametros
         fundo = Image.open(img_fundo)
         img = Image.open(os.path.join(input_dir, nomeArq)).convert("RGBA")
+        
 
-        # # Para ajustes de fotos verticais
-        # angle = 270
-        # Image.rotate(angle, resample=0, expand=0, center=None, translate=None, fillcolor=None)[source]
-        # img = img.rotate(angle, 1, 1)
+        # Definição das medidas da imagem
+        # size_img = (1126, 844) # Imagem Horizontal
+        size_img = (1365, 1022) # Imagem Horizontal 2
+        if isImageVertical(img):
+            size_img = (878, 1168) # Imagem Vertical
+            # # Para ajustes de fotos verticais
+            # angle = 270
+            # Image.rotate(angle, resample=0, expand=0, center=None, translate=None, fillcolor=None)[source]
+            # img = img.rotate(angle, 1, 1)
+
 
         # Redimensionamento das imagens
         editFundo = fundo.resize(size_moldura)
         editImg = img.resize(size_img, Image.ANTIALIAS)
 
-        # Calculo para centralização da imagem principal com 
+        # Calculo para centralização da imagem principal com o fundo
         w1, h1 = editFundo.size
         w2, h2 = editImg.size
 

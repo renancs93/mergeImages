@@ -14,7 +14,14 @@ def isImageVertical(foto):
     return False
 
 def func_join_images(img_fundo, input_dir, output_dir):
+    
     print('--- EXECUTANDO ---')
+
+    # verifica se a pasta de destino existe, senão cria
+    pastaOutput = "./"+output_dir
+    if not os.path.exists(pastaOutput):
+        print('-- criando pasta de Output --')
+        os.mkdir(pastaOutput)
 
     sucesso = 0
 

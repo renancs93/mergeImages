@@ -39,8 +39,12 @@ def func_join_images(img_fundo, input_dir, output_dir):
         # size_img = (1126, 844) # Imagem Horizontal
         size_img = (1365, 1022) # Imagem Horizontal 2
         if isImageVertical(img):
-            fundo = Image.open(img_fundo.replace('Fundo_Logo.png', 'Fundo_LogoVert.png'))
-            size_img = (878, 1168) # Imagem Vertical
+            if 'Fundo_Logo.png' in img_fundo:
+                fundo = Image.open(img_fundo.replace('Fundo_Logo.png', 'Fundo_LogoVert.png'))
+                size_img = (878, 1168) # Imagem Vertical
+            else:
+                size_img = (900, 1273) # Imagem Vertical Expandida
+
             # # Para ajustes de fotos verticais
             # angle = 270
             # Image.rotate(angle, resample=0, expand=0, center=None, translate=None, fillcolor=None)[source]

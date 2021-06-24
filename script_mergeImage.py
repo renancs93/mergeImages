@@ -1,6 +1,7 @@
 import sys
 import os
-from PIL import Image
+import time
+from PIL import Image, ImageOps, ExifTags
 
 def func_eh_imagem(nome_arquivo):
     ext_permitidas = [".png", ".jpg"]
@@ -9,15 +10,40 @@ def func_eh_imagem(nome_arquivo):
     return False    
 
 def isImageVertical(foto):
-    largura, altura = foto.size
+    data = ImageOps.exif_transpose(foto)
+    largura, altura = data.size
+
     if altura > largura:
         return True
     return False
 
+def needRotate(image):
+    try:
+        image = ImageOps.exif_transpose(image)
+        
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation]=='Orientation':
+                break
+        
+        exif = image.getexif()
+        
+        if exif[orientation] == 3:
+            image=image.rotate(180, expand=True)
+        elif exif[orientation] == 6:
+            image=image.rotate(270, expand=True)
+        elif exif[orientation] == 8:
+            image=image.rotate(90, expand=True)
+
+        return image
+    except (AttributeError, KeyError, IndexError):
+        # print("Foto sem EXIF Data")
+        return image
+
+
 def func_join_images(img_fundo, input_dir, output_dir):
     
     print('--- EXECUTANDO ---')
-
+    
     # verifica se a pasta de destino existe, senão cria
     pastaOutput = "./"+output_dir
     if not os.path.exists(pastaOutput):
@@ -45,6 +71,9 @@ def func_join_images(img_fundo, input_dir, output_dir):
                 size_img = (878, 1168) # Imagem Vertical
             else:
                 size_img = (900, 1273) # Imagem Vertical Expandida
+
+        # Verificar se a foto precisa ser girada
+        img = needRotate(img)
 
         # Redimensionamento das imagens
         editFundo = fundo.resize(size_moldura)
@@ -80,6 +109,9 @@ if __name__ == "__main__":
     parametros = sys.argv[1:]
 
     if(len(parametros) >= 2):
+        time_start = time.time()
         func_join_images(parametros[0], parametros[1], 'editadas')
+        duraction = (time.time() - time_start)
+        print(f'--- Tempo de Duração: {time.strftime("%H:%M:%S", time.gmtime(duraction))} ---')
     else:
         print('Paramentros necessários ao script: [img de fundo] [diretorio de imagens]')

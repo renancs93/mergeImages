@@ -2,6 +2,7 @@ import sys
 import os
 import time
 from PIL import Image, ImageOps, ExifTags
+from tqdm import tqdm
 
 def func_eh_imagem(nome_arquivo):
     ext_permitidas = [".png", ".jpg"]
@@ -12,6 +13,8 @@ def func_eh_imagem(nome_arquivo):
 def isImageVertical(foto):
     data = ImageOps.exif_transpose(foto)
     largura, altura = data.size
+    
+    # print(largura, altura)
 
     if altura > largura:
         return True
@@ -56,7 +59,7 @@ def func_join_images(img_fundo, input_dir, output_dir):
     size_moldura = (1400, 1400) # Tamanho de uma post do Instagram
 
     lista_arquivos = [nome for nome in os.listdir(input_dir) if func_eh_imagem(nome)]
-    for nomeArq in lista_arquivos:
+    for nomeArq in tqdm(lista_arquivos, ascii=True, desc="Progresso"):
         
         # Get Itens recebidos por parametros
         fundo = Image.open(img_fundo)
@@ -64,11 +67,13 @@ def func_join_images(img_fundo, input_dir, output_dir):
         
         # Definição das medidas da imagem
         # size_img = (1126, 844) # Imagem Horizontal
-        size_img = (1365, 1022) # Imagem Horizontal 2
+        # size_img = (1365, 1022) # Imagem Horizontal 2
+        size_img = (1356, 763) # Imagem Horizontal 2
         if isImageVertical(img):
             if 'Fundo_Logo.png' in img_fundo:
                 fundo = Image.open(img_fundo.replace('Fundo_Logo.png', 'Fundo_LogoVert.png'))
-                size_img = (878, 1168) # Imagem Vertical
+                # size_img = (878, 1168) # Imagem Vertical
+                size_img = (723, 1284) # Imagem Vertical 2
             else:
                 size_img = (900, 1273) # Imagem Vertical Expandida
 
@@ -97,7 +102,7 @@ def func_join_images(img_fundo, input_dir, output_dir):
         nome_sem_ext = os.path.splitext(nomeArq)[0]
 
         editFundo.save(os.path.join(output_dir, nome_sem_ext + '.png'))
-        print(f'Editado Imagem >> {nome_sem_ext}')
+        # print(f'Editado Imagem >> {nome_sem_ext}')
         sucesso += 1
 
     print(f'--- FINALIZADO ---')

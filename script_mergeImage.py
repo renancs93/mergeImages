@@ -67,13 +67,13 @@ def func_join_images(img_fundo, input_dir, output_dir):
         
         # Definição das medidas da imagem
         # size_img = (1126, 844) # Imagem Horizontal
-        # size_img = (1365, 1022) # Imagem Horizontal 2
-        size_img = (1356, 763) # Imagem Horizontal 2
+        size_img = (1365, 1022) # Imagem Horizontal 2
+        # size_img = (1356, 763) # Imagem Horizontal 2
         if isImageVertical(img):
             if 'Fundo_Logo.png' in img_fundo:
                 fundo = Image.open(img_fundo.replace('Fundo_Logo.png', 'Fundo_LogoVert.png'))
-                # size_img = (878, 1168) # Imagem Vertical
-                size_img = (723, 1284) # Imagem Vertical 2
+                size_img = (878, 1168) # Imagem Vertical
+                # size_img = (723, 1284) # Imagem Vertical 2
             else:
                 size_img = (900, 1273) # Imagem Vertical Expandida
 

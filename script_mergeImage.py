@@ -43,7 +43,7 @@ def needRotate(image):
         return image
 
 
-def func_join_images(img_fundo, input_dir, output_dir):
+def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
     
     print('--- EXECUTANDO ---')
     
@@ -69,13 +69,17 @@ def func_join_images(img_fundo, input_dir, output_dir):
         # size_img = (1126, 844) # Imagem Horizontal
         size_img = (1365, 1022) # Imagem Horizontal 2
         # size_img = (1356, 763) # Imagem Horizontal 2
-        if isImageVertical(img):
-            if 'Fundo_Logo.png' in img_fundo:
-                fundo = Image.open(img_fundo.replace('Fundo_Logo.png', 'Fundo_LogoVert.png'))
-                size_img = (878, 1168) # Imagem Vertical
-                # size_img = (723, 1284) # Imagem Vertical 2
-            else:
-                size_img = (900, 1273) # Imagem Vertical Expandida
+        if img_fundo_secundaria is not None and isImageVertical(img):
+            size_img = (900, 1273)
+            # size_img = (878, 1168)
+            fundo = Image.open(img_fundo_secundaria)
+
+            # if 'Fundo_Logo.png' in img_fundo:
+            #     fundo = Image.open(img_fundo.replace('Fundo_Logo.png', 'Fundo_LogoVert.png'))
+            #     size_img = (878, 1168) # Imagem Vertical
+            #     # size_img = (723, 1284) # Imagem Vertical 2
+            # else:
+            #     size_img = (900, 1273) # Imagem Vertical Expandida
 
         # Verificar se a foto precisa ser girada
         img = needRotate(img)
@@ -112,11 +116,14 @@ def func_join_images(img_fundo, input_dir, output_dir):
 if __name__ == "__main__":
 
     parametros = sys.argv[1:]
-
-    if(len(parametros) >= 2):
+    total_params = len(parametros)
+    if(total_params >= 2):
         time_start = time.time()
-        func_join_images(parametros[0], parametros[1], 'editadas')
+        if(total_params == 3):
+            func_join_images(parametros[0], 'editadas', parametros[1], parametros[2])
+        else:
+            func_join_images(parametros[0], 'editadas', parametros[1], None)
         duraction = (time.time() - time_start)
         print(f'--- Tempo de Duração: {time.strftime("%H:%M:%S", time.gmtime(duraction))} ---')
     else:
-        print('Paramentros necessários ao script: [img de fundo] [diretorio de imagens]')
+        print('Paramentros necessários ao script: [diretorio de imagens] [img de fundo] [-- opcional img de fundo secundaria]')

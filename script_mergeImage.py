@@ -56,7 +56,8 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
     sucesso = 0
 
     # Definição medida da moldura
-    size_moldura = (1400, 1400) # Tamanho de uma post do Instagram
+    size_moldura = (1400, 1400) # Tamanho de uma post do Instagram (Dafault)
+    # size_moldura = (1080, 1080) # Tamanho de uma post do Instagram (Reduzido)
 
     lista_arquivos = [nome for nome in os.listdir(input_dir) if func_eh_imagem(nome)]
     for nomeArq in tqdm(lista_arquivos, ascii=True, desc="Progresso"):
@@ -66,12 +67,11 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
         img = Image.open(os.path.join(input_dir, nomeArq)).convert("RGBA")
         
         # Definição das medidas da imagem
-        # size_img = (1126, 844) # Imagem Horizontal
-        size_img = (1365, 1022) # Imagem Horizontal 2
-        # size_img = (1356, 763) # Imagem Horizontal 2
+        size_img = (1365, 1022) # Default
+        # size_img = (1053, 593) # Imagem original HEIC (iPhone)
         if img_fundo_secundaria is not None and isImageVertical(img):
-            size_img = (900, 1273)
-            # size_img = (878, 1168)
+            size_img = (900, 1273) # Default
+            # size_img = (554, 985) # Imagem original HEIC (iPhone)
             fundo = Image.open(img_fundo_secundaria)
 
             # if 'Fundo_Logo.png' in img_fundo:
@@ -86,7 +86,7 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
 
         # Redimensionamento das imagens
         editFundo = fundo.resize(size_moldura)
-        editImg = img.resize(size_img, Image.ANTIALIAS)
+        editImg = img.resize(size_img, Image.ANTIALIAS) ## Default
 
         # Calculo para centralização da imagem principal com o fundo
         w1, h1 = editFundo.size

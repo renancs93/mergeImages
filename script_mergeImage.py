@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 def func_eh_imagem(nome_arquivo):
     ext_permitidas = [".png", ".jpg"]
-    if nome_arquivo.endswith(tuple(ext_permitidas)):
+    if nome_arquivo.lower().endswith(tuple(ext_permitidas)):
         return True
     return False    
 

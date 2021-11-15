@@ -70,7 +70,7 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
         size_img = (1365, 1022) # Default
         # size_img = (1053, 593) # Imagem original HEIC (iPhone)
         if img_fundo_secundaria is not None and isImageVertical(img):
-            size_img = (900, 1273) # Default
+            size_img = (920, 1226) # Default
             # size_img = (554, 985) # Imagem original HEIC (iPhone)
             fundo = Image.open(img_fundo_secundaria)
 

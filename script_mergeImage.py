@@ -5,7 +5,7 @@ from PIL import Image, ImageOps, ExifTags
 from tqdm import tqdm
 
 def func_eh_imagem(nome_arquivo):
-    ext_permitidas = [".png", ".jpg"]
+    ext_permitidas = [".png", ".jpg", ".jpeg"]
     if nome_arquivo.lower().endswith(tuple(ext_permitidas)):
         return True
     return False    

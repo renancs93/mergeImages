@@ -4,6 +4,14 @@ import time
 from PIL import Image, ImageOps, ExifTags
 from tqdm import tqdm
 
+# Dimensões default das imagens
+# SIZE_IMAGE = (1336, 601)
+# SIZE_IMAGE = (1338, 1004)
+SIZE_IMAGE = (1365, 1022)
+
+# SIZE_IMAGE_VERT = (582, 1294)
+SIZE_IMAGE_VERT = (920, 1226)
+
 def func_eh_imagem(nome_arquivo):
     ext_permitidas = [".png", ".jpg", ".jpeg"]
     if nome_arquivo.lower().endswith(tuple(ext_permitidas)):
@@ -67,12 +75,13 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
         img = Image.open(os.path.join(input_dir, nomeArq)).convert("RGBA")
         
         # Definição das medidas da imagem
-        size_img = (1365, 1022) # Default
+        size_img = SIZE_IMAGE # Default
         # size_img = (1053, 593) # Imagem original HEIC (iPhone)
-        if img_fundo_secundaria is not None and isImageVertical(img):
-            size_img = (920, 1226) # Default
+        if isImageVertical(img):
+            size_img = SIZE_IMAGE_VERT # Default
             # size_img = (554, 985) # Imagem original HEIC (iPhone)
-            fundo = Image.open(img_fundo_secundaria)
+            if img_fundo_secundaria is not None:
+                fundo = Image.open(img_fundo_secundaria)
 
             # if 'Fundo_Logo.png' in img_fundo:
             #     fundo = Image.open(img_fundo.replace('Fundo_Logo.png', 'Fundo_LogoVert.png'))
@@ -126,4 +135,4 @@ if __name__ == "__main__":
         duraction = (time.time() - time_start)
         print(f'--- Tempo de Duração: {time.strftime("%H:%M:%S", time.gmtime(duraction))} ---')
     else:
-        print('Paramentros necessários ao script: [diretorio de imagens] [img de fundo] [-- opcional img de fundo secundaria]')
+        print('Parametros necessários ao script: [diretorio de imagens] [img de fundo] [img fundo secundaria vertical --opcional]')

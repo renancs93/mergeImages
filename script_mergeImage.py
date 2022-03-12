@@ -6,11 +6,16 @@ from tqdm import tqdm
 
 # Dimensões default das imagens
 # SIZE_IMAGE = (1336, 601)
+# SIZE_IMAGE = (1355, 762)
 # SIZE_IMAGE = (1338, 1004)
-SIZE_IMAGE = (1365, 1022)
+# SIZE_IMAGE = (1365, 1022)
 
 # SIZE_IMAGE_VERT = (582, 1294)
-SIZE_IMAGE_VERT = (920, 1226)
+# SIZE_IMAGE_VERT = (920, 1226)
+
+# Dimensão padrão das imagens (apenas de um dos lados)
+BASE_HORIZ = 1365
+BASE_VERT = 1200
 
 def func_eh_imagem(nome_arquivo):
     ext_permitidas = [".png", ".jpg", ".jpeg"]
@@ -27,6 +32,10 @@ def isImageVertical(foto):
     if altura > largura:
         return True
     return False
+
+def getDimensionsImg(foto):
+    data = ImageOps.exif_transpose(foto)
+    return data.size
 
 def needRotate(image):
     try:
@@ -74,21 +83,27 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
         fundo = Image.open(img_fundo)
         img = Image.open(os.path.join(input_dir, nomeArq)).convert("RGBA")
         
+        # Calculo das dimenções pela proporção (Foto Horizontal)
+        ww, hh = getDimensionsImg(img)
+        wpercent = (BASE_HORIZ/float(ww))
+        hsize = int((float(hh)*float(wpercent)))
+        
         # Definição das medidas da imagem
-        size_img = SIZE_IMAGE # Default
+        # size_img = SIZE_IMAGE # Default
+        size_img = (BASE_HORIZ, hsize) # Default Horizontal
+        
         # size_img = (1053, 593) # Imagem original HEIC (iPhone)
         if isImageVertical(img):
-            size_img = SIZE_IMAGE_VERT # Default
+            # size_img = SIZE_IMAGE_VERT # Default
             # size_img = (554, 985) # Imagem original HEIC (iPhone)
+            
+            # Calculo das dimenções pela proporção (Foto Vertical)
+            hpercent = (BASE_VERT/float(hh))
+            wsize = int((float(ww)*float(hpercent)))
+            size_img = (wsize, BASE_VERT) # Default Vertical
+            
             if img_fundo_secundaria is not None:
                 fundo = Image.open(img_fundo_secundaria)
-
-            # if 'Fundo_Logo.png' in img_fundo:
-            #     fundo = Image.open(img_fundo.replace('Fundo_Logo.png', 'Fundo_LogoVert.png'))
-            #     size_img = (878, 1168) # Imagem Vertical
-            #     # size_img = (723, 1284) # Imagem Vertical 2
-            # else:
-            #     size_img = (900, 1273) # Imagem Vertical Expandida
 
         # Verificar se a foto precisa ser girada
         img = needRotate(img)
@@ -135,4 +150,4 @@ if __name__ == "__main__":
         duraction = (time.time() - time_start)
         print(f'--- Tempo de Duração: {time.strftime("%H:%M:%S", time.gmtime(duraction))} ---')
     else:
-        print('Parametros necessários ao script: [diretorio de imagens] [img de fundo] [img fundo secundaria vertical --opcional]')
+        print('Parametros necessarios ao script: [diretorio de imagens] [img de fundo] [img fundo secundaria vertical --opcional]')

@@ -24,8 +24,8 @@ def func_eh_imagem(nome_arquivo):
     return False    
 
 def isImageVertical(foto):
-    data = ImageOps.exif_transpose(foto)
-    largura, altura = data.size
+    # data = ImageOps.exif_transpose(foto)
+    largura, altura = getDimensionsImg(foto) # data.size
     
     # print(largura, altura)
 

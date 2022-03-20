@@ -9,12 +9,12 @@ Obs: A medida final da moldura está adequada para postagem do Instagram (1400 x
 
 Modelo: 
 <code>
-  python.exe script_mergeImage.py [imagem de fundo] [repositório de imagens]
+  python script_mergeImage.py [diretorio de imagens] [img de fundo] [img fundo secundaria vertical --opcional]
 </code>
 
 Exemplo
 <code>
-  python.exe script_mergeImage.py moldura/Moldura_Central.png imagens
+  python.exe script_mergeImage.py images/ moldura/Fundo_Logo.png moldura/Fundo_LogoVert.png
 </code>
 
 ## Resultado:

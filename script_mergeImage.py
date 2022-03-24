@@ -4,18 +4,11 @@ import time
 from PIL import Image, ImageOps, ExifTags
 from tqdm import tqdm
 
-# Dimensões default das imagens
-# SIZE_IMAGE = (1336, 601)
-# SIZE_IMAGE = (1355, 762)
-# SIZE_IMAGE = (1338, 1004)
-# SIZE_IMAGE = (1365, 1022)
-
-# SIZE_IMAGE_VERT = (582, 1294)
-# SIZE_IMAGE_VERT = (920, 1226)
-
 # Dimensão padrão das imagens (apenas de um dos lados)
 BASE_HORIZ = 1365
 BASE_VERT = 1200
+
+SIZE_IMG_BACKGROUND = (1400, 1400)
 
 def func_eh_imagem(nome_arquivo):
     ext_permitidas = [".png", ".jpg", ".jpeg"]
@@ -24,12 +17,8 @@ def func_eh_imagem(nome_arquivo):
     return False    
 
 def isImageVertical(foto):
-    # data = ImageOps.exif_transpose(foto)
-    largura, altura = getDimensionsImg(foto) # data.size
-    
-    # print(largura, altura)
-
-    if altura > largura:
+    largura, altura = getDimensionsImg(foto)
+    if altura >= largura:
         return True
     return False
 
@@ -73,7 +62,7 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
     sucesso = 0
 
     # Definição medida da moldura
-    size_moldura = (1400, 1400) # Tamanho de uma post do Instagram (Dafault)
+    size_moldura = SIZE_IMG_BACKGROUND # Tamanho de uma post do Instagram (Dafault)
     # size_moldura = (1080, 1080) # Tamanho de uma post do Instagram (Reduzido)
 
     lista_arquivos = [nome for nome in os.listdir(input_dir) if func_eh_imagem(nome)]
@@ -89,14 +78,9 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
         hsize = int((float(hh)*float(wpercent)))
         
         # Definição das medidas da imagem
-        # size_img = SIZE_IMAGE # Default
         size_img = (BASE_HORIZ, hsize) # Default Horizontal
         
-        # size_img = (1053, 593) # Imagem original HEIC (iPhone)
-        if isImageVertical(img):
-            # size_img = SIZE_IMAGE_VERT # Default
-            # size_img = (554, 985) # Imagem original HEIC (iPhone)
-            
+        if isImageVertical(img): 
             # Calculo das dimenções pela proporção (Foto Vertical)
             hpercent = (BASE_VERT/float(hh))
             wsize = int((float(ww)*float(hpercent)))

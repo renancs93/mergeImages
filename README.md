@@ -1,20 +1,26 @@
 # Merge Images
+
 Script em Python de junção de Images
 
 O projeto contém um script (script_mergeImage.py), que permite você definir uma imagem de fundo padrão e passar um repositório contendo várias imagens, será gerado uma nova imagem editada para cada item encontrado no repositório listado.
 
-Obs: A medida final da moldura está adequada para postagem do Instagram (1400 x 1400)
+Obs: O script contém variáveis com dimensões padrões da imagem de fundo (SIZE_IMG_BACKGROUND) e tamanhos base para imagens horizontal (BASE_HORIZ) e vertical (BASE_VERT), se for necessário atualize de acordo com a necessidade.
 
-## Abaixo um exemplo do comando para executar:
+- Requisitos:
+  - Python
+  - Pillow (pip install Pillow)
+  - tqdm (pip install tqdm)
 
-Modelo: 
+## Exemplo de comando para executar:
+
+Modelo:
 <code>
-  python script_mergeImage.py [diretorio de imagens] [img de fundo] [img fundo secundaria vertical --opcional]
+python script_mergeImage.py [diretorio de imagens] [img de fundo] [img fundo secundaria vertical --opcional]
 </code>
 
 Exemplo
 <code>
-  python.exe script_mergeImage.py images/ moldura/Fundo_Logo.png moldura/Fundo_LogoVert.png
+python script_mergeImage.py imagens/ moldura/Fundo_Logo2.png
 </code>
 
 ## Resultado:

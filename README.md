@@ -23,11 +23,15 @@ Exemplo
 python script_mergeImage.py imagens/ moldura/Fundo_Logo2.png
 </code>
 
-## Resultado:
-
-<kbd align="center">
-  <img src="https://github.com/renancs93/mergeImages/blob/master/screenshots/897d27fc262f890552a3f404ff2b4c28_orig.png" width="50%" title="imagem original">
-</kbd>
-<kbd align="center">
-  <img src="https://github.com/renancs93/mergeImages/blob/master/screenshots/897d27fc262f890552a3f404ff2b4c28.png" width="50%" title="imagem editada">
-</kbd>
+## Resultados:
+<div align="center">
+  Imagem Original:
+  <div>
+    <img src="https://github.com/renancs93/mergeImages/blob/master/screenshots/897d27fc262f890552a3f404ff2b4c28_orig.png" width="50%" title="imagem original">
+  </div>
+  <hr>
+  Imagem Editada:
+  <div>
+    <img src="https://github.com/renancs93/mergeImages/blob/master/screenshots/897d27fc262f890552a3f404ff2b4c28.png" width="50%" title="imagem editada">
+  </div>
+</div>

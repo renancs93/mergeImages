@@ -10,6 +10,7 @@ Obs: O script contém variáveis com dimensões padrões da imagem de fundo (SIZ
   - Python
   - Pillow (pip install Pillow)
   - tqdm (pip install tqdm)
+  - pillow-heif (pip install pillow-heif)
 
 ## Exemplo de comando para executar:
 

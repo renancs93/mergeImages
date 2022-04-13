@@ -3,6 +3,10 @@ import os
 import time
 from PIL import Image, ImageOps, ExifTags
 from tqdm import tqdm
+from pillow_heif import register_heif_opener
+
+# HEIC image extension support
+register_heif_opener()
 
 # Dimensão padrão das imagens (apenas de um dos lados)
 BASE_HORIZ = 1365
@@ -11,7 +15,7 @@ BASE_VERT = 1200
 SIZE_IMG_BACKGROUND = (1400, 1400)
 
 def func_eh_imagem(nome_arquivo):
-    ext_permitidas = [".png", ".jpg", ".jpeg"]
+    ext_permitidas = [".png", ".jpg", ".jpeg", ".heic"]
     if nome_arquivo.lower().endswith(tuple(ext_permitidas)):
         return True
     return False    

@@ -75,7 +75,10 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
         # Get Itens recebidos por parametros
         fundo = Image.open(img_fundo)
         img = Image.open(os.path.join(input_dir, nomeArq)).convert("RGBA")
-        
+
+        # Verificar se a foto precisa ser girada
+        img = needRotate(img)
+
         # Calculo das dimenções pela proporção (Foto Horizontal)
         ww, hh = getDimensionsImg(img)
         wpercent = (BASE_HORIZ/float(ww))
@@ -92,9 +95,6 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
             
             if img_fundo_secundaria is not None:
                 fundo = Image.open(img_fundo_secundaria)
-
-        # Verificar se a foto precisa ser girada
-        img = needRotate(img)
 
         # Redimensionamento das imagens
         editFundo = fundo.resize(size_moldura)

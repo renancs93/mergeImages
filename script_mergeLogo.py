@@ -9,8 +9,8 @@ from pillow_heif import register_heif_opener
 register_heif_opener()
 
 # Dimensão padrão das imagens (apenas de um dos lados)
-BASE_HORIZ = 1365
-BASE_VERT = 1200
+BASE_HORIZ = 1200
+BASE_VERT = 1365
 BASE_MARGEM = 5
 
 SIZE_IMG_LOGO = (150, 150)

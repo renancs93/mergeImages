@@ -10,11 +10,12 @@ from pillow_heif import register_heif_opener
 register_heif_opener()
 
 # Dimensão padrão das imagens (apenas de um dos lados)
-BASE_HORIZ = 1200
-BASE_VERT = 1365
+BASE_HORIZ = 1080
+BASE_VERT = 1350
 BASE_MARGEM = 5
 
-SIZE_IMG_LOGO = (150, 150)
+SIZE_IMG_LOGO = (120, 120)
+SIZE_IMG_LOGO_V = (180, 180)
 
 # LeftTop | LeftBottom | RightBottom | RightTop
 LIST_POSITIONS = ['LT', 'LB', 'RB', 'RT']
@@ -57,6 +58,7 @@ def func_merge_images(input_dir, img_logo, logo_position, output_dir):
             hpercent = (BASE_VERT/float(hh))
             wsize = int((float(ww)*float(hpercent)))
             size_img = (wsize, BASE_VERT) # Default Vertical
+            size_logo = SIZE_IMG_LOGO_V
             
         # Redimensionamento das imagens
         editLogo = logo.resize(size_logo, Image.ANTIALIAS)

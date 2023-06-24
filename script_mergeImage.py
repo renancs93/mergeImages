@@ -53,14 +53,14 @@ def needRotate(image):
         return image
 
 
-def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
+def func_join_images(input_dir, img_fundo, output_dir):
     
     print('--- EXECUTANDO ---')
     
     # verifica se a pasta de destino existe, senão cria
     pastaOutput = "./"+output_dir
     if not os.path.exists(pastaOutput):
-        print('-- criando pasta de Output --')
+        print('-- Criando pasta de Output --')
         os.mkdir(pastaOutput)
 
     sucesso = 0
@@ -92,9 +92,6 @@ def func_join_images(input_dir,  output_dir, img_fundo, img_fundo_secundaria):
             hpercent = (BASE_VERT/float(hh))
             wsize = int((float(ww)*float(hpercent)))
             size_img = (wsize, BASE_VERT) # Default Vertical
-            
-            if img_fundo_secundaria is not None:
-                fundo = Image.open(img_fundo_secundaria)
 
         # Redimensionamento das imagens
         editFundo = fundo.resize(size_moldura)
@@ -132,10 +129,10 @@ if __name__ == "__main__":
     if(total_params >= 2):
         time_start = time.time()
         if(total_params == 3):
-            func_join_images(parametros[0], 'editadas', parametros[1], parametros[2])
+            func_join_images(parametros[0], parametros[1], output_dir=parametros[2])
         else:
-            func_join_images(parametros[0], 'editadas', parametros[1], None)
+            func_join_images(parametros[0], parametros[1], output_dir='editadas')
         duraction = (time.time() - time_start)
         print(f'--- Tempo de Duração: {time.strftime("%H:%M:%S", time.gmtime(duraction))} ---')
     else:
-        print('Parametros necessarios ao script: [diretorio de imagens] [img de fundo] [img fundo secundaria vertical --opcional]')
+        print('Parametros necessarios ao script: [diretorio de imagens] [img de fundo] [diretorio de destino --opcional]')

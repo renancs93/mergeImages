@@ -62,6 +62,7 @@ def func_join_images(input_dir, img_fundo, output_dir):
     if not os.path.exists(pastaOutput):
         print('-- Criando pasta de Output --')
         os.mkdir(pastaOutput)
+        print(os.path.abspath(pastaOutput))
 
     sucesso = 0
 

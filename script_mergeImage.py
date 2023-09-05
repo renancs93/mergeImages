@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+import utilities.util as util
 from PIL import Image, ImageOps, ExifTags
 from tqdm import tqdm
 from pillow_heif import register_heif_opener
@@ -14,45 +15,6 @@ BASE_VERT = 1200
 
 SIZE_IMG_BACKGROUND = (1400, 1400)
 
-def func_eh_imagem(nome_arquivo):
-    ext_permitidas = [".png", ".jpg", ".jpeg", ".heic"]
-    if nome_arquivo.lower().endswith(tuple(ext_permitidas)):
-        return True
-    return False    
-
-def isImageVertical(foto):
-    largura, altura = getDimensionsImg(foto)
-    if altura >= largura:
-        return True
-    return False
-
-def getDimensionsImg(foto):
-    data = ImageOps.exif_transpose(foto)
-    return data.size
-
-def needRotate(image):
-    try:
-        image = ImageOps.exif_transpose(image)
-        
-        for orientation in ExifTags.TAGS.keys():
-            if ExifTags.TAGS[orientation]=='Orientation':
-                break
-        
-        exif = image.getexif()
-        
-        if exif[orientation] == 3:
-            image=image.rotate(180, expand=True)
-        elif exif[orientation] == 6:
-            image=image.rotate(270, expand=True)
-        elif exif[orientation] == 8:
-            image=image.rotate(90, expand=True)
-
-        return image
-    except (AttributeError, KeyError, IndexError):
-        # print("Foto sem EXIF Data")
-        return image
-
-
 def func_join_images(input_dir, img_fundo, output_dir):
     
     print('--- EXECUTANDO ---')
@@ -62,15 +24,14 @@ def func_join_images(input_dir, img_fundo, output_dir):
     if not os.path.exists(pastaOutput):
         print('-- Criando pasta de Output --')
         os.mkdir(pastaOutput)
-        print(os.path.abspath(pastaOutput))
 
+    print(f'Salvando em: {os.path.abspath(pastaOutput)}')
     sucesso = 0
 
     # Definição medida da moldura
     size_moldura = SIZE_IMG_BACKGROUND # Tamanho de uma post do Instagram (Dafault)
-    # size_moldura = (1080, 1080) # Tamanho de uma post do Instagram (Reduzido)
 
-    lista_arquivos = [nome for nome in os.listdir(input_dir) if func_eh_imagem(nome)]
+    lista_arquivos = [nome for nome in os.listdir(input_dir) if util.is_valid_image(nome)]
     for nomeArq in tqdm(lista_arquivos, ascii=True, desc="Progresso"):
         
         # Get Itens recebidos por parametros
@@ -78,17 +39,17 @@ def func_join_images(input_dir, img_fundo, output_dir):
         img = Image.open(os.path.join(input_dir, nomeArq)).convert("RGBA")
 
         # Verificar se a foto precisa ser girada
-        img = needRotate(img)
+        img = util.need_rotate(img)
 
         # Calculo das dimenções pela proporção (Foto Horizontal)
-        ww, hh = getDimensionsImg(img)
+        ww, hh = util.get_image_dimensions(img)
         wpercent = (BASE_HORIZ/float(ww))
         hsize = int((float(hh)*float(wpercent)))
         
         # Definição das medidas da imagem
         size_img = (BASE_HORIZ, hsize) # Default Horizontal
         
-        if isImageVertical(img): 
+        if util.is_vertical_image(img): 
             # Calculo das dimenções pela proporção (Foto Vertical)
             hpercent = (BASE_VERT/float(hh))
             wsize = int((float(ww)*float(hpercent)))
@@ -127,12 +88,13 @@ if __name__ == "__main__":
 
     parametros = sys.argv[1:]
     total_params = len(parametros)
-    if(total_params >= 2):
+    if(total_params >= 2 and total_params <= 3):
         time_start = time.time()
         if(total_params == 3):
-            func_join_images(parametros[0], parametros[1], output_dir=parametros[2])
+            func_join_images(input_dir=parametros[0], img_fundo=parametros[1], output_dir=parametros[2])
         else:
-            func_join_images(parametros[0], parametros[1], output_dir='editadas')
+            func_join_images(input_dir=parametros[0], img_fundo=parametros[1], output_dir='editadas')
+        
         duraction = (time.time() - time_start)
         print(f'--- Tempo de Duração: {time.strftime("%H:%M:%S", time.gmtime(duraction))} ---')
     else:
